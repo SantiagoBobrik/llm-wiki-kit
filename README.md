@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/banner.png" alt="llm-wiki-kit banner" width="100%" />
+
 # llm-wiki-kit
 
 **Your second brain, maintained by Claude.**

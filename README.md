@@ -6,7 +6,7 @@
 
 **Your second brain, maintained by Claude.**
 
-A Claude Code plugin that turns an Obsidian vault into an LLM-maintained knowledge base. Five skills: init, compile, search, save, lint.
+A Claude Code plugin that turns an <a href="https://obsidian.md">Obsidian</a> vault into an LLM-maintained knowledge base. Five skills: init, compile, search, save, lint.
 
 [![Plugin](https://img.shields.io/badge/Claude%20Code-plugin-7c3aed)](https://github.com/SantiagoBobrik/llm-wiki-kit)
 [![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/SantiagoBobrik/llm-wiki-kit)

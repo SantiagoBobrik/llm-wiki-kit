@@ -375,6 +375,22 @@ To change the defaults for every new workspace, edit `skills/wiki-init/assets/co
 - **Download attachments for current file** — Obsidian's built-in command (command palette) pulls remote images and assets referenced by a clipping into the vault, so the `Raw/` note becomes self-contained and survives if the original page goes down. Run it on fresh clippings before compiling if you want them archive-safe.
 - **Web Clipper auto-fetches transcripts** — when you clip a YouTube (or similar) video page, the Obsidian Web Clipper pulls the transcript and lands it as a ready-to-read article in `Raw/`. No manual copy-paste from YouTube — just clip the video URL and the transcript is already there for `wiki-compile` to ingest.
 
+## Recommended companion skills
+
+These skills from [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) pair well with llm-wiki-kit — they give Claude deeper Obsidian integration:
+
+```bash
+npx skills add https://github.com/kepano/obsidian-skills --skill obsidian-cli
+npx skills add https://github.com/kepano/obsidian-skills --skill obsidian-markdown
+npx skills add https://github.com/kepano/obsidian-skills --skill obsidian-bases
+```
+
+| Skill | Why it helps |
+|---|---|
+| **obsidian-cli** | CLI commands for vault management — the same CLI llm-wiki-kit drives under the hood |
+| **obsidian-markdown** | Obsidian-flavored markdown: wikilinks, callouts, embeds, properties |
+| **obsidian-bases** | Database-like views over your notes with filters, formulas, and summaries |
+
 ## Contributing
 
 Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.

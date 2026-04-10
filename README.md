@@ -4,7 +4,7 @@
 
 **Your second brain, maintained by Claude.**
 
-Five skills that turn an Obsidian vault into a self-organizing wiki: init, compile, search, save, lint.
+A Claude Code plugin that turns an Obsidian vault into an LLM-maintained knowledge base. Five skills: init, compile, search, save, lint.
 
 [![Plugin](https://img.shields.io/badge/Claude%20Code-plugin-7c3aed)](https://github.com/SantiagoBobrik/llm-wiki-kit)
 [![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/SantiagoBobrik/llm-wiki-kit)
@@ -31,7 +31,7 @@ Five skills that turn an Obsidian vault into a self-organizing wiki: init, compi
 
 </details>
 
-Clip things into `Raw/`, let Claude compile them into interlinked articles in `Wiki/`, query the result like a reference book.
+You clip articles, threads, and notes into `Raw/`. Claude compiles them into structured, interlinked articles in `Wiki/` — grouping related sources, preserving specifics, maintaining cross-references. The knowledge is compiled once and kept current. You curate what goes in; the LLM handles the bookkeeping.
 
 Inspired by:
 

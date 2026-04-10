@@ -286,7 +286,7 @@ Reads uncompiled clippings from `Raw/`, groups them by topic, and writes synthes
 - `--vault <name>` *(optional)* — target vault. Use `--vault .` for the vault matching cwd. If omitted and you have multiple vaults, the skill asks.
 - `[topic or filename]` *(positional, optional)* — fuzzy scope for the compile run; matches against title, tags, or body. Omit to compile **every** uncompiled clipping.
 
-Invoke: `/wiki-compile`, `/wiki-compile --vault oui`, `/wiki-compile llm knowledge bases`, or "compile my raws".
+Invoke: `/wiki-compile`, `/wiki-compile --vault my-vault`, `/wiki-compile llm knowledge bases`, or "compile my raws".
 
 ### wiki-lint
 
@@ -311,7 +311,7 @@ Never modifies files. Suggests, doesn't edit.
 - `--vault <name>` *(optional)* — target vault. Use `--vault .` for the vault matching cwd. If omitted and you have multiple vaults, the skill asks.
 - No positional arguments — lint always runs over the whole `Wiki/` tree.
 
-Invoke: `/wiki-lint`, `/wiki-lint --vault oui`, or "lint my wiki".
+Invoke: `/wiki-lint`, `/wiki-lint --vault my-vault`, or "lint my wiki".
 
 ### wiki-save
 
@@ -345,7 +345,7 @@ Queries the wiki and returns a synthesized answer with citations.
 - `--vault <name>` *(optional)* — target vault. Use `--vault .` for the vault matching cwd. If omitted and you have multiple vaults, the skill asks.
 - `<query>` *(positional, optional)* — topic, term, or question. Omit to let the skill infer from conversation context.
 
-Invoke: `/wiki-search mcp`, `/wiki-search --vault oui claude plugins`, or "what do I have on X".
+Invoke: `/wiki-search mcp`, `/wiki-search --vault my-vault claude plugins`, or "what do I have on X".
 
 ## Project structure
 

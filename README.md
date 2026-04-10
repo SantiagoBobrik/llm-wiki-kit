@@ -42,6 +42,14 @@ Inspired by:
 - **NickSpisak** — [Part 1](https://x.com/NickSpisak_/status/2040448463540830705) and [Part 2](https://x.com/NickSpisak_/status/2041243686265090076) of his second-brain system, arguing for dedicated domain vaults.
 - **hooeem** — [tiered course](https://x.com/hooeem/status/2041196025906418094) from zero-skill to full builder setup.
 
+### What you get
+
+- **`/wiki-init`** — bootstrap any Obsidian vault with the wiki structure and rules
+- **`/wiki-compile`** — turn raw clippings into synthesized, interlinked articles
+- **`/wiki-search`** — query your wiki and get answers with citations from your own notes
+- **`/wiki-save`** — file a conversation insight back into the wiki before it disappears
+- **`/wiki-lint`** — audit for contradictions, gaps, unsourced claims, and AI-voice tone
+
 ## Prerequisites
 
 ### 1. Obsidian + Obsidian CLI

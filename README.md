@@ -44,7 +44,7 @@ Inspired by:
 
 ### What you get
 
-All skills work from any Claude Code session, any project. Query your wiki while coding or researching, save an insight from any conversation, compile clippings between tasks.
+All skills work from any Claude Code session, any project. Query your wiki while coding or researching, save an insight from any conversation.
 
 - **`/wiki-init`** — bootstrap any Obsidian vault with the wiki structure and rules
 - **`/wiki-compile`** — turn raw clippings into synthesized, interlinked articles

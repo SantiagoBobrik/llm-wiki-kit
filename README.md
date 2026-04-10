@@ -14,6 +14,23 @@ Five skills that turn an Obsidian vault into a self-organizing wiki: init, compi
 
 ---
 
+<details>
+<summary><strong>Table of contents</strong></summary>
+
+- [Prerequisites](#prerequisites)
+- [Install](#install)
+- [Quick start](#quick-start)
+- [How it works](#how-it-works)
+- [Skills reference](#skills-reference)
+- [Project structure](#project-structure)
+- [The contract](#the-contract)
+- [Hacks / Pro tips](#hacks--pro-tips)
+- [Recommended companion skills](#recommended-companion-skills)
+- [Contributing](#contributing)
+- [License](#license)
+
+</details>
+
 Clip things into `Raw/`, let Claude compile them into interlinked articles in `Wiki/`, query the result like a reference book.
 
 Inspired by:

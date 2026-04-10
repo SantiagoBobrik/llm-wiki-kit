@@ -1,4 +1,4 @@
-# llm-personal-wiki-setup
+# llm-wiki-kit
 
 A personal wiki system for Obsidian, maintained by an LLM. Clip things into `Raw/`, let Claude compile them into interlinked articles in `Wiki/`, query the result like a reference book.
 

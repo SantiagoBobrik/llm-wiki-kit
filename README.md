@@ -47,11 +47,7 @@ Inspired by:
 The skills drive Obsidian through the `obsidian` CLI. Install it and make sure Obsidian is running when you invoke them.
 
 ```bash
-# Check it's installed
 obsidian help
-
-# Point to your vault
-obsidian vault list
 ```
 
 Docs: https://obsidian.md/help/cli

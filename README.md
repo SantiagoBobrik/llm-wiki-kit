@@ -146,7 +146,7 @@ flowchart TD
     init[wiki-init]:::dark
     target[target directory<br/>any project]:::dark
     structure[Raw/ + Wiki/<br/>+ index.md + log.md]:::dark
-    asset[assets/contract-template.md<br/>contract template<br/>inside the skill]:::dark
+    asset[contract template]:::dark
     claudemd[CLAUDE.md<br/>## Wiki section<br/>inlined + demoted]:::dark
 
     user -->|/wiki-init| init

@@ -50,6 +50,8 @@ If `<path>/Wiki/` or `<path>/Wiki/index.md` is missing, print `ℹ️ Vault not 
 
 Use the search output from step 0 directly — no need to read each file's frontmatter individually.
 
+If the search returns zero results, print `ℹ️ No uncompiled clippings found in Raw/. Clip something first or check that your clippings have compiled: false in frontmatter.` and stop.
+
 ### 2. Analyze and group by topic
 
 Read each uncompiled clipping's full content. Group them by topic affinity:

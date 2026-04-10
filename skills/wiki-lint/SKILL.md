@@ -35,6 +35,8 @@ Registered Obsidian vaults (`name<TAB>path` per line):
 
 Parse the pre-loaded vault list (`name<TAB>path` per line). Apply the **Vault** rule from the top of this file to pick one. Hold the chosen vault's `<name>` and absolute `<path>` — every subsequent step uses them.
 
+If `<path>/Wiki/` or `<path>/Wiki/index.md` is missing, print `ℹ️ Vault not wiki-initialized. Run /wiki-init to bootstrap.` and stop.
+
 Then load the working set from that vault:
 
 ```bash

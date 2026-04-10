@@ -61,22 +61,7 @@ Pick the right subfolder (`Wiki/<Category>/`) using the same categories as wiki-
 
 Structure the conversation content into a clean article. Not a transcript dump — synthesize it into something readable.
 
-```markdown
----
-type: <concept|guide|analysis|comparison|pattern|reference>
-created: YYYY-MM-DD
-updated: YYYY-MM-DD
-owner: <user>
-origin: conversation
-tags:
-  - wiki
-  - <topic tags>
----
-
-# <Title>
-
-<Content structured with headers, bullets, callouts as needed.>
-```
+Read the article template from `${CLAUDE_SKILL_DIR}/assets/article-template.md` and fill in the placeholders. That file is the source of truth — edit it to change the default article shape for saved articles.
 
 Key rules:
 

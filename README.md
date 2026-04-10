@@ -137,25 +137,19 @@ That's it. `/wiki-search`, `/wiki-save`, and `/wiki-lint` are available alongsid
 ### Bootstrap: init
 
 ```mermaid
-flowchart LR
-    subgraph plugin[llm-wiki-kit plugin]
-        asset[contract template]:::dark
-    end
-
+flowchart TD
     user([you]):::dark
     init[wiki-init]:::dark
-    target[target directory<br/>any project]:::dark
+    target[target directory]:::dark
     structure[Raw/ + Wiki/<br/>+ index.md + log.md]:::dark
-    claudemd[CLAUDE.md<br/>## Wiki section<br/>inlined + demoted]:::dark
+    claudemd[CLAUDE.md<br/>## Wiki section]:::dark
 
     user -->|/wiki-init| init
-    asset -->|strip top header<br/>demote headings| init
-    init -->|validate against<br/>obsidian vault list| target
+    init -->|validate vault| target
     init -->|create if missing| structure
-    init -->|append section<br/>or create file| claudemd
+    init -->|read contract template<br/>strip header, demote headings| claudemd
 
     classDef dark fill:#1e1e2e,stroke:#6c7086,color:#cdd6f4
-    style plugin fill:#2a2a3e,stroke:#6c7086,color:#cdd6f4
 ```
 
 ### Ingest: clip → compile

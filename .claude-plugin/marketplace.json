@@ -6,11 +6,15 @@
   "plugins": [
     {
       "name": "llm-wiki-kit",
-      "source": ".",
       "description": "Your second brain, maintained by Claude. Five skills that turn an Obsidian vault into a self-organizing wiki: init, compile, search, save, lint.",
-      "version": "0.1.0",
-      "category": "knowledge-management",
-      "tags": ["obsidian", "wiki", "knowledge-base", "skills", "second-brain"]
+      "source": "./",
+      "skills": [
+        "./skills/wiki-init",
+        "./skills/wiki-compile",
+        "./skills/wiki-search",
+        "./skills/wiki-save",
+        "./skills/wiki-lint"
+      ]
     }
   ]
 }

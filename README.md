@@ -1,6 +1,20 @@
+<div align="center">
+
 # llm-wiki-kit
 
-A personal wiki system for Obsidian, maintained by an LLM. Clip things into `Raw/`, let Claude compile them into interlinked articles in `Wiki/`, query the result like a reference book.
+**Your second brain, maintained by Claude.**
+
+Five skills that turn an Obsidian vault into a self-organizing wiki: init, compile, search, save, lint.
+
+[![Plugin](https://img.shields.io/badge/Claude%20Code-plugin-7c3aed)](https://github.com/SantiagoBobrik/llm-wiki-kit)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue)](https://github.com/SantiagoBobrik/llm-wiki-kit)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+</div>
+
+---
+
+Clip things into `Raw/`, let Claude compile them into interlinked articles in `Wiki/`, query the result like a reference book.
 
 Inspired by:
 
@@ -9,25 +23,103 @@ Inspired by:
 - **NickSpisak** — [Part 1](https://x.com/NickSpisak_/status/2040448463540830705) and [Part 2](https://x.com/NickSpisak_/status/2041243686265090076) of his second-brain system, arguing for dedicated domain vaults.
 - **hooeem** — [tiered course](https://x.com/hooeem/status/2041196025906418094) from zero-skill to full builder setup.
 
-This repo packages the pattern as five self-contained Claude Code skills. One (`wiki-init`) bootstraps any directory into a wiki-enabled workspace; the other four are the day-to-day operations.
+## Prerequisites
 
-## What's in the box
+### 1. Obsidian + Obsidian CLI
 
+The skills drive Obsidian through the `obsidian` CLI. Install it and make sure Obsidian is running when you invoke them.
+
+```bash
+# Check it's installed
+obsidian help
+
+# Point to your vault
+obsidian vault list
 ```
-llm-personal-wiki-setup/
-├── skills/
-│   ├── wiki-init/          ← one-shot bootstrap: create structure, drop contract, wire CLAUDE.md
-│   │   ├── SKILL.md
-│   │   └── assets/
-│   │       └── contract-template.md  ← canonical contract template (shipped with the skill)
-│   ├── wiki-compile/       ← Raw/ → Wiki/ compilation
-│   ├── wiki-lint/          ← audit: contradictions, gaps, tone, under-used sources
-│   ├── wiki-save/          ← file a conversation answer back into Wiki/
-│   └── wiki-search/        ← query the wiki, return a synthesized answer
-└── README.md
+
+Docs: https://obsidian.md/help/cli
+
+### 2. Obsidian Web Clipper
+
+Browser extension that turns web pages into clean markdown files in your vault. This is the ingest path — anything you clip lands in `Raw/` and becomes fuel for `wiki-compile`.
+
+- Chrome / Firefox / Safari: https://obsidian.md/clipper
+- Configure the default folder to `Raw/`.
+
+### 3. The `compiled` property in Web Clipper
+
+> [!IMPORTANT]
+> Add a `compiled` checkbox property to your Web Clipper template with default value `false`. `wiki-compile` uses `[compiled:false]` to find new clippings, and sets it to `true` after processing.
+
+In Web Clipper settings → template → Properties, add:
+
+| Name | Type | Default |
+|---|---|---|
+| `compiled` | Checkbox | `false` |
+
+Without this, compile has no way to distinguish new clippings from already-processed ones.
+
+## Install
+
+**Recommended — via plugin marketplace:**
+
+```bash
+claude plugin marketplace add SantiagoBobrik/llm-wiki-kit && claude plugin install llm-wiki-kit
 ```
+
+Skills become available as `/wiki-init`, `/wiki-compile`, `/wiki-search`, `/wiki-save`, `/wiki-lint` (or prefixed `/llm-wiki-kit:wiki-init` if another plugin collides). Run `/reload-plugins` after install if Claude Code was already open.
+
+**From source:**
+
+```bash
+mkdir -p ~/.claude/skills
+git clone https://github.com/SantiagoBobrik/llm-wiki-kit.git && cp -Rn llm-wiki-kit/skills/* ~/.claude/skills/
+```
+
+`cp -n` won't overwrite existing skill folders — if you already have a `wiki-*` skill with the same name, remove it first or copy manually.
+
+## Quick start
+
+1. Run `/wiki-init` — two equivalent options:
+
+   ```
+   # Option A — cd into your vault first, then:
+   /wiki-init
+
+   # Option B — pass the vault path as an argument (absolute or relative to cwd):
+   /wiki-init /absolute/path/to/vault
+   /wiki-init ../my-vault
+   /wiki-init .
+   ```
+
+   `wiki-init` checks the environment, creates `Raw/` and `Wiki/` (with empty `index.md` and `log.md`), and inlines the Wiki contract as a `## Wiki` section inside your `CLAUDE.md` — creating `CLAUDE.md` if it doesn't exist, or appending the section (with headings demoted so they nest properly) if it does. The run is idempotent and never overwrites an existing Wiki section without asking.
+
+   **What gets written into `CLAUDE.md`:** the `## Wiki` section covers folder **structure** (`Raw/`, `Wiki/`, `index.md`, `log.md`), **frontmatter** fields every article must carry, **writing rules** (one concept per article, synthesize don't summarize, preserve specifics, tone), and **linking** conventions. These are the defaults the skills will follow when reading and writing your wiki — and they're fully yours to edit. Don't like a frontmatter tag? Want every article to include a "TL;DR" section? Prefer Spanish headings? Just edit the `## Wiki` section in your `CLAUDE.md` and the skills pick it up on the next run.
+
+2. Start clipping into `Raw/` (via Obsidian Web Clipper or by dropping markdown files), then run `/wiki-compile` to synthesize them into `Wiki/`.
+
+That's it. `/wiki-search`, `/wiki-save`, and `/wiki-lint` are available alongside compile.
+
+> [!IMPORTANT]
+> `wiki-init` operates on Obsidian vaults registered with the Obsidian CLI. If you run it from a directory that isn't a known vault, the skill lists your vaults and asks you to pick one.
 
 ## How it works
+
+**Three layers:**
+
+- **Raw/** — immutable source clippings. The LLM reads but never modifies.
+- **Wiki/** — LLM-owned articles. Synthesized, interlinked, compounding over time.
+- **The contract** — structure, frontmatter, writing rules, tone. Lives as a `## Wiki` section inside the target's `CLAUDE.md`, inlined by `wiki-init` from the skill's shipped template. Claude Code reads `CLAUDE.md` as standard project context, so the contract loads automatically.
+
+**Five operations:**
+
+| Skill | What it does |
+|---|---|
+| **init** | One-shot bootstrap: create `Raw/` + `Wiki/`, inline the contract into `CLAUDE.md` |
+| **compile** | Ingest new clippings, group by topic, merge into existing articles or create new ones |
+| **search** | Ask questions, get a synthesized answer drawn from the wiki with wikilink citations |
+| **save** | File a good conversation answer back into the wiki so it doesn't disappear |
+| **lint** | Periodic audit for contradictions, unsourced claims, gaps, under-used sources, AI-voice tone |
 
 ### Bootstrap: init
 
@@ -129,100 +221,7 @@ flowchart TD
     classDef dark fill:#1e1e2e,stroke:#6c7086,color:#cdd6f4
 ```
 
-**Three layers:**
-
-- **Raw/** — immutable source clippings. The LLM reads but never modifies.
-- **Wiki/** — LLM-owned articles. Synthesized, interlinked, compounding over time.
-- **The contract** — structure, frontmatter, writing rules, tone. Lives as a `## Wiki` section inside the target's `CLAUDE.md`, inlined by `wiki-init` from the skill's shipped template. Claude Code reads `CLAUDE.md` as standard project context, so the contract loads automatically.
-
-**Four operations:**
-
-1. **Compile** — ingest new clippings, merge into existing articles or create new ones.
-2. **Search** — ask questions, get a synthesized answer drawn from the wiki.
-3. **Save** — file a good conversation answer back into the wiki so it doesn't disappear.
-4. **Lint** — periodic audit for contradictions, missing cross-references, under-used sources, AI-voice tone.
-
-## Prerequisites
-
-### 1. Obsidian + Obsidian CLI
-
-The skills drive Obsidian through the `obsidian` CLI. Install it and make sure Obsidian is running when you invoke them.
-
-```bash
-# Check it's installed
-obsidian help
-
-# Point to your vault
-obsidian vault list
-```
-
-Docs: https://obsidian.md/help/cli
-
-### 2. Obsidian Web Clipper
-
-Browser extension that turns web pages into clean markdown files in your vault. This is the ingest path — anything you clip lands in `Raw/` and becomes fuel for `wiki-compile`.
-
-- Chrome / Firefox / Safari: https://obsidian.md/clipper
-- Configure the default folder to `Raw/`.
-
-### 3. The `compiled` property in Web Clipper
-
-> [!IMPORTANT]
-> Add a `compiled` checkbox property to your Web Clipper template with default value `false`. `wiki-compile` uses `[compiled:false]` to find new clippings, and sets it to `true` after processing.
-
-In Web Clipper settings → template → Properties, add:
-
-| Name | Type | Default |
-|---|---|---|
-| `compiled` | Checkbox | `false` |
-
-Without this, compile has no way to distinguish new clippings from already-processed ones.
-
-## Install Wiki Kit Plugin
-
-**Recommended — via plugin marketplace:**
-
-```bash
-claude plugin marketplace add SantiagoBobrik/llm-wiki-kit && claude plugin install llm-wiki-kit
-```
-
-Skills become available as `/wiki-init`, `/wiki-compile`, `/wiki-search`, `/wiki-save`, `/wiki-lint` (or prefixed `/llm-wiki-kit:wiki-init` if another plugin collides). Run `/reload-plugins` after install if Claude Code was already open.
-
-**From source:**
-
-```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/SantiagoBobrik/llm-wiki-kit.git && cp -Rn llm-wiki-kit/skills/* ~/.claude/skills/
-```
-
-`cp -n` won't overwrite existing skill folders — if you already have a `wiki-*` skill with the same name, remove it first or copy manually.
-
-## Quick start
-
-1. Run `/wiki-init` — two equivalent options:
-
-   ```
-   # Option A — cd into your vault first, then:
-   /wiki-init
-
-   # Option B — pass the vault path as an argument (absolute or relative to cwd):
-   /wiki-init /absolute/path/to/vault
-   /wiki-init ../my-vault
-   /wiki-init .
-   ```
-
-   `wiki-init` checks the environment, creates `Raw/` and `Wiki/` (with empty `index.md` and `log.md`), and inlines the Wiki contract as a `## Wiki` section inside your `CLAUDE.md` — creating `CLAUDE.md` if it doesn't exist, or appending the section (with headings demoted so they nest properly) if it does. The run is idempotent and never overwrites an existing Wiki section without asking.
-
-   **What gets written into `CLAUDE.md`:** the `## Wiki` section covers folder **structure** (`Raw/`, `Wiki/`, `index.md`, `log.md`), **frontmatter** fields every article must carry, **writing rules** (one concept per article, synthesize don't summarize, preserve specifics, tone), and **linking** conventions. These are the defaults the skills will follow when reading and writing your wiki — and they're fully yours to edit. Don't like a frontmatter tag? Want every article to include a "TL;DR" section? Prefer Spanish headings? Just edit the `## Wiki` section in your `CLAUDE.md` and the skills pick it up on the next run.
-
-2. Start clipping into `Raw/` (via Obsidian Web Clipper or by dropping markdown files), then run `/wiki-compile` to synthesize them into `Wiki/`.
-
-That's it. `/wiki-search`, `/wiki-save`, and `/wiki-lint` are available alongside compile.
-
-> [!IMPORTANT]
-> `wiki-init` operates on Obsidian vaults registered with the Obsidian CLI. If you run it from a directory that isn't a known vault, the skill lists your vaults and asks you to pick one.
-
-## The skills
+## Skills reference
 
 ### A note on pre-loaded context
 
@@ -331,6 +330,34 @@ Queries the wiki and returns a synthesized answer with citations.
 
 Invoke: `/wiki-search mcp`, `/wiki-search --vault oui claude plugins`, or "what do I have on X".
 
+## Project structure
+
+```
+llm-wiki-kit/
+├── .claude-plugin/
+│   ├── plugin.json              ← plugin manifest
+│   └── marketplace.json         ← marketplace distribution config
+├── skills/
+│   ├── wiki-init/
+│   │   ├── SKILL.md
+│   │   └── assets/
+│   │       └── contract-template.md  ← canonical contract template
+│   ├── wiki-compile/
+│   │   ├── SKILL.md
+│   │   └── assets/
+│   │       ├── article-template.md
+│   │       ├── index-entry-template.md
+│   │       └── log-entry-template.md
+│   ├── wiki-lint/
+│   │   └── SKILL.md
+│   ├── wiki-save/
+│   │   └── SKILL.md
+│   └── wiki-search/
+│       └── SKILL.md
+├── CLAUDE.md
+└── README.md
+```
+
 ## The contract
 
 The canonical contract template lives in [`skills/wiki-init/assets/contract-template.md`](skills/wiki-init/assets/contract-template.md). `wiki-init` inlines it into each target's `CLAUDE.md` as a `## Wiki` section at bootstrap time, demoting headings so the structure nests cleanly. The operational skills then read the target's `CLAUDE.md` for the rules, the same file Claude Code loads as standard project context.
@@ -347,3 +374,11 @@ To change the defaults for every new workspace, edit `skills/wiki-init/assets/co
 
 - **Download attachments for current file** — Obsidian's built-in command (command palette) pulls remote images and assets referenced by a clipping into the vault, so the `Raw/` note becomes self-contained and survives if the original page goes down. Run it on fresh clippings before compiling if you want them archive-safe.
 - **Web Clipper auto-fetches transcripts** — when you clip a YouTube (or similar) video page, the Obsidian Web Clipper pulls the transcript and lands it as a ready-to-read article in `Raw/`. No manual copy-paste from YouTube — just clip the video URL and the transcript is already there for `wiki-compile` to ingest.
+
+## Contributing
+
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## License
+
+[MIT](LICENSE)
